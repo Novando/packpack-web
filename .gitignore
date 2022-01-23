@@ -7,6 +7,9 @@
 /client/frontend/.DS_Store
 /client/frontend/node_modules
 
+# Client backup
+/client/frontend_bak
+
 # Server
 /server/node_modules
 .env
