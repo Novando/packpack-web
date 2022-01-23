@@ -70,7 +70,7 @@ exports.add = async (req, res) => {
 			.resize(300, 300)
 				.toFile('./public/storage/products/mockups/' + mockupImgs);
 		await sharp('./public/uploads/' + designFiles)
-			.toFile('./public/storage/products/designs/' + designFiles);
+			.toFile('./public/storage/products/design/' + designFiles);
 
 		/*
 		* Problem with FS

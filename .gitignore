@@ -11,7 +11,7 @@
 /server/node_modules
 .env
 /server/public/uploads/*
-/server/public/storage/products/designs/*
+/server/public/storage/products/design/*
 /server/public/storage/products/mockups/*
 /server/public/storage/products/previews/*
 /server/public/storage/custom_products/*
