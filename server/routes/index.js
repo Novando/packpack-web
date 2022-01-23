@@ -8,6 +8,7 @@ const verifyToken 		 	= require('../middleware/verify_token.js');
 // Register route
 const userRoute  				= require('./user.js');
 const productRoute 			= require('./product.js');
+const productCustomRoute= require('./product_custom.js');
 const cartRoute 				= require('./cart.js');
 const addressRoute			= require('./address.js');
 const materialRoute			= require('./material.js');
@@ -23,6 +24,9 @@ route.use('/user', userRoute);
 
 // Product route
 route.use('/product', productRoute);
+
+// Product Custom route
+route.use('/custom', productRoute);
 
 // Cart route
 route.use('/cart', cartRoute);

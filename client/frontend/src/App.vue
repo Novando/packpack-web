@@ -1,32 +1,18 @@
 <template>
-  <NavigatorComponent />
-  <router-view/>
-  <FooterComponent />
+  <v-app>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-  import NavigatorComponent from '@/components/Navigator.vue'
-  import FooterComponent from '@/components/Footer.vue'
-  // import UserController from '@/controllers/UserController.js'
 
-  export default{
-    components: {
-      NavigatorComponent,
-      FooterComponent,
-    },
+export default {
+  name: 'App',
 
-    // async mounted(){
-    //   const response = await UserController.refresh({
-    //     token: localStorage.getItem('token')
-    //   })
-
-    //   this.$store.state.isLogin  = response.data.authorized
-    //   this.$store.state.user     = response.data.user
-    // }
-
-  };
+  data: () => ({
+    //
+  }),
+}
 </script>
-
-<style>
-
-</style>
