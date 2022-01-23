@@ -1,0 +1,42 @@
+{
+  "name": "kitalabel.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "RNP",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "aos": "^2.3.4",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.2",
+    "ipify2": "^1.1.1",
+    "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "micromodal": "^0.4.10",
+    "multer": "^1.4.4",
+    "mysql2": "^2.3.3",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "public-ip": "^5.0.0",
+    "sequelize": "^6.12.3",
+    "sequelize-cli": "^6.3.0",
+    "sharp": "^0.29.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^11.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
