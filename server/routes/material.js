@@ -10,9 +10,9 @@ const materialRoute			= express.Router();
 materialRoute.get('/', material.print);
 materialRoute.post('/add', material.add);
 materialRoute.get('/show/:id', material.show);
-materialRoute.post('/edit', material.edit);
-materialRoute.post('/adjust', material.adjust);
-materialRoute.post('/restock', material.restock);
+materialRoute.post('/edit/:id', material.edit);
+materialRoute.post('/adjust/:id', material.adjust);
+materialRoute.post('/restock/:id', material.restock);
 materialRoute.delete('/remove/:id', material.remove);
 
 module.exports = materialRoute;

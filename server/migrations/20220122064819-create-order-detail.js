@@ -21,44 +21,34 @@ module.exports = {
       },
       productId: {
         type: Sequelize.BIGINT.UNSIGNED,
-        allowNull: true,
-        references: {
-          model: {
-            tableName: 'products',
-          },
-          key: 'id'
-        },
+        allowNull: false,
       },
-      productCustomId: {
-        type: Sequelize.BIGINT.UNSIGNED,
+      productName: {
+        type: Sequelize.STRING,
         allowNull: true,
-        references: {
-          model: {
-            tableName: 'productCustoms',
-          },
-          key: 'id'
-        },
       },
       materialId: {
         type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false,
-        references: {
-          model: {
-            tableName: 'materials',
-          },
-          key: 'id'
-        },
       },
-      discountId: {
-        type: Sequelize.BIGINT.UNSIGNED,
-      },
-      shipping: {
+      materialName: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       length: {
         type: Sequelize.INTEGER.UNSIGNED
       },
       width: {
+        type: Sequelize.INTEGER.UNSIGNED
+      },
+      weight: {
+        type: Sequelize.DOUBLE.UNSIGNED,
+        validate: {
+          isDecimal: true
+        },
+        allowNull: false
+      },
+      qty: {
         type: Sequelize.INTEGER.UNSIGNED
       },
       subtotal: {

@@ -54,6 +54,9 @@ module.exports = {
       width: {
         type: Sequelize.INTEGER.UNSIGNED
       },
+      qty: {
+        type: Sequelize.INTEGER.UNSIGNED
+      },
       createdBy: {
         type: Sequelize.STRING,
         allowNull: false,

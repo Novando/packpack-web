@@ -14,8 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   order.init({
-    userId: DataTypes.BIGINT.UNSIGNED,
-    addressId: DataTypes.BIGINT.UNSIGNED,
+    invoice: DataTypes.STRING,
+    email: DataTypes.STRING,
+    username: DataTypes.STRING,
+    recipient: DataTypes.STRING,
+    country: DataTypes.STRING,
+    province: DataTypes.STRING,
+    city: DataTypes.STRING,
+    district: DataTypes.STRING,
+    ward: DataTypes.STRING,
+    address1: DataTypes.STRING,
+    address2: DataTypes.STRING,
+    zip: DataTypes.STRING,
+    shipment: DataTypes.STRING,
+    shipmentCost: DataTypes.DOUBLE.UNSIGNED,
     paymentMethod: DataTypes.STRING,
     total: DataTypes.DOUBLE.UNSIGNED,
     status: DataTypes.STRING,

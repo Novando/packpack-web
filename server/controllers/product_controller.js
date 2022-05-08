@@ -1,5 +1,4 @@
 const product 						= require('../models').product;
-const productAttribute		= require('../models').productAttribute;
 const fs 									= require('fs');
 const path 								= require('path');
 const ipify								= require('ipify2');
@@ -55,8 +54,8 @@ exports.add = async (req, res) => {
 			mainImg: mainImg,
 			mockupImgs: mockupImgs,
 			designFiles: designFiles,
-			bestLength: req.body.bestLength,
-			bestWidth: req.body.bestWidth,
+			bestLength: parseInt(req.body.bestLength),
+			bestWidth: parseInt(req.body.bestWidth),
 			category: (req.body.category).toLowerCase(),
 			tags: (req.body.tags).toLowerCase(),
 			createdBy: ip,
@@ -112,13 +111,13 @@ exports.edit = async(req, res) => {
 				variant: (req.body.variant).toLowerCase()
 			}
 		});
-	
-		if (checkItem) {
+		console.log(req.body);
+		if (checkItem && checkItem.id != req.body.id) {
 			return res.status(400).send({
 				msg: 'Identical product already exist'
 			})
 		};
-
+		console.log('sampe sini');
 		let ip = await ipify.ipv4()
 		await product.update(
 			{
@@ -126,9 +125,9 @@ exports.edit = async(req, res) => {
 				name: name.toLowerCase(),
 				variant: variant.toLowerCase(),
 				description: req.body.description,
-				mainImg: mainImg,
-				mockupImgs: mockupImgs,
-				designFiles: designFiles,
+				// mainImg: mainImg,
+				// mockupImgs: mockupImgs,
+				// designFiles: designFiles,
 				bestLength: req.body.bestLength,
 				bestWidth: req.body.bestWidth,
 				category: (req.body.category).toLowerCase(),

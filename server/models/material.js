@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   material.init({
     name: DataTypes.STRING,
+    description: DataTypes.TEXT,
     width: DataTypes.INTEGER,
     price: DataTypes.DOUBLE,
     weight: DataTypes.DOUBLE,

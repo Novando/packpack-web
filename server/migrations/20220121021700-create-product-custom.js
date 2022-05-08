@@ -23,7 +23,21 @@ module.exports = {
         allowNull: false,
         defaultValue: 'custom',
       },
-      name: {
+      brandName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: true,
+        }
+      },
+      productName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: true,
+        }
+      },
+      variantName: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {

@@ -10,13 +10,12 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="name">Kategori</label>
-						<select class="custom-select" v-model="category">
-							<option value=''>Ready Product</option>
-							<option v-for="attribute in attributes" :key="attribute.id" :value="attribute.id">
-								{{attribute.shape}}, {{attribute.material}}, {{attribute.length}}x{{attribute.width}}
-							</option>
-						</select>
+						<label for="category">Kategori</label>
+						<input type="text" class="form-control" id="category" v-model="category">
+					</div>
+					<div class="form-group">
+						<label for="shape">Bentuk</label>
+						<input type="text" class="form-control" id="shape" v-model="shape">
 					</div>
 					<div class="form-group">
 						<label for="name">Nama</label>
@@ -27,16 +26,25 @@
 						<input type="text" class="form-control" id="variant" v-model="variant">
 					</div>
 					<div class="form-group">
-						<label for="price">Harga</label>
-						<input type="text" class="form-control" id="price" v-model="price">
-					</div>
-					<div class="form-group">
-						<label for="weight">Berat</label>
-						<input type="text" class="form-control" id="weight" v-model="weight">
-					</div>
-					<div class="form-group">
 						<label for="description">Deskripsi</label>
 						<input type="text" class="form-control" id="description" v-model="description">
+					</div>
+					<div class="form-group">
+						<label for="length">Ukuran Optimal</label>
+						<div class="row">
+							<div class="col-1">
+								<input type="text" id="length" class="form-control" v-model="bestLength">
+							</div>mm
+							<p class="col-1 text-center">x</p>
+							<div class="col-1">
+								<input type="text" id="width" class="form-control" v-model="bestWidth">
+							</div>mm
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="tags">Tag</label>
+						<input type="text" class="form-control" id="tags" v-model="tags">
+						<p>Pisahkan dengan spasi</p>
 					</div>
 					<div class="form-group">
 						<label for="mainImg">Gambar Produk</label>
@@ -69,25 +77,24 @@
 			</form>
 		</div>
 	</div>
+
 	<div v-if="edit" class="modal fade" id="modal-edit-form">
 		<div class="modal-dialog modal-lg">
 			<form @submit.prevent="editProduct(edit.id)" class="modal-content" enctype="multipart/form-data">
 				<div class="modal-header">
-					<h4 class="modal-title">Tambah Produk Baru</h4>
+					<h4 class="modal-title">Edit Produk ID {{ edit.id }}</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="name">Kategori</label>
-						<select class="custom-select" v-model="edit.prodAtrbId">
-							<option :value="edit.prodAtrbId" disabled selected hidden>TIDAK BERUBAH</option>
-							<option value=''>Ready Product</option>
-							<option v-for="attribute in attributes" :key="attribute.id" :value="attribute.id">
-								{{attribute.shape}}, {{attribute.material}}, {{attribute.length}}x{{attribute.width}}
-							</option>
-						</select>
+						<label for="category">Kategori</label>
+						<input type="text" class="form-control" id="category" v-model="edit.category">
+					</div>
+					<div class="form-group">
+						<label for="shape">Bentuk</label>
+						<input type="text" class="form-control" id="shape" v-model="edit.shape">
 					</div>
 					<div class="form-group">
 						<label for="name">Nama</label>
@@ -98,16 +105,25 @@
 						<input type="text" class="form-control" id="variant" v-model="edit.variant">
 					</div>
 					<div class="form-group">
-						<label for="price">Harga</label>
-						<input type="text" class="form-control" id="price" v-model="edit.price">
-					</div>
-					<div class="form-group">
-						<label for="weight">Berat</label>
-						<input type="text" class="form-control" id="weight" v-model="edit.weight">
-					</div>
-					<div class="form-group">
 						<label for="description">Deskripsi</label>
 						<input type="text" class="form-control" id="description" v-model="edit.description">
+					</div>
+					<div class="form-group">
+						<label for="length">Ukuran Optimal</label>
+						<div class="row">
+							<div class="col-1">
+								<input type="text" id="length" class="form-control" v-model="edit.bestLength">
+							</div>mm
+							<p class="col-1 text-center">x</p>
+							<div class="col-1">
+								<input type="text" id="width" class="form-control" v-model="edit.bestWidth">
+							</div>mm
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="tags">Tag</label>
+						<input type="text" class="form-control" id="tags" v-model="edit.tags">
+						<p>Pisahkan dengan spasi</p>
 					</div>
 				</div>
 				<div class="modal-footer justify-content-between">
@@ -150,19 +166,17 @@
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-create-form">
-									Tambah Attribut Baru
+									Tambah Produk Baru
 								</button>
 
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
                       <th>ID</th>
+											<th>Bentuk</th>
                       <th>Kategori</th>
                       <th>Nama</th>
-                      <th>Berat</th>
                       <th>Gambar</th>
-                      <th>Tersedia?</th>
-                      <th>Harga</th>
                       <th>Editor</th>
                       <th>Terakhir Diedit</th>
                       <th>Tindakan</th>
@@ -171,16 +185,12 @@
                   <tbody>
                     <tr v-for="product in products" :key="product.id">
                       <td>{{ product.id }}</td>
-                      <td v-if="!product.prodAtrbId">Ready Product</td>
-											<td v-else>{{ product.prodAtrbId }}</td>
+											<td>{{ product.shape }}</td>
+											<td>{{ product.category }}</td>
                       <td>{{ product.name }} - {{ product.variant }}</td>
-                      <td>{{ product.weight }}kg</td>
                       <td>
-												<img :src="$store.state.apiUrl + 'products/' + product.mainImg" class="img-fluid mb-2" :alt="product.mainImg"/>
+												<img :src="$store.state.apiUrl + 'products/previews/' + product.mainImg" class="img-fluid mb-2" :alt="product.mainImg"/>
 											</td>
-                      <td v-if="product.stock">Tersedia</td>
-                      <td v-else>Kosong</td>
-                      <td>Rp{{ product.price }}</td>
                       <td>{{ product.modifiedBy }}</td>
                       <td>{{ product.updatedAt }}</td>
                       <td>
@@ -207,20 +217,21 @@
 
 <script>
 	import ProductController from '@/controllers/ProductController.js'
-	import ProductAttributeController from '@/controllers/ProductAttributeController.js'
 
 	export default {
 		name: 'Products',
 		data(){
 			return{
 				name				: null,
+				shape 			: null,
+				bestWidth 	: null,
+				bestLength 	: null,
+				tags 				: null,
 				category 		: null,
 				edit 				: null,
 				attributes	: null,
 				variant			: null,
 				description	: null,
-				weight 			: null,
-				price 			: null,
 				mainImg			: null,
 				otherImgs		: null,
 				designFiles	: null,
@@ -232,7 +243,6 @@
 
 		async mounted() {
 			this.products 	= (await ProductController.print()).data
-			this.attributes = (await ProductAttributeController.show()).data
 		},
 
 		methods: {
@@ -259,34 +269,36 @@
 
       async editProduct(id){
         await ProductController.edit(id, {
-					prodAtrbId: this.edit.prodAtrbId,
+					id : this.edit.id,
 					name: this.edit.name,
 					variant: this.edit.variant,
-					price: this.edit.price,
-					weight: this.edit.weight,
 					description: this.edit.description,
+					category: this.edit.category,
+					tags: this.edit.tags,
+					shape: this.edit.shape,
+					bestWidth : this.edit.bestWidth,
+					bestLength : this.edit.bestLength,
         })
         this.products 	= (await ProductController.print()).data
-				this.attributes = (await ProductAttributeController.show()).data
       },
 
 			async add() {
 				try {
 					const formData = new FormData()
 					formData.append('mainImg', this.mainImg)
-					formData.append('otherImgs', this.otherImgs)
+					formData.append('mockupImgs', this.otherImgs)
 					formData.append('designFiles', this.designFiles)
-					formData.append('prodAtrbId', this.category)
 					formData.append('name', this.name)
 					formData.append('variant', this.variant)
 					formData.append('description', this.description)
-					formData.append('price', this.price)
-					formData.append('weight', this.weight)
-					formData.append('page', 'products')
+					formData.append('category', this.category)
+					formData.append('shape', this.shape)
+					formData.append('bestLength', this.bestLength)
+					formData.append('bestWidth', this.bestWidth)
+					formData.append('tags', this.tags)
 
           await ProductController.add(formData)
           this.products 	= (await ProductController.print()).data
-					this.attributes = (await ProductAttributeController.show()).data
           this.status = true
         } catch(err) {
 					this.status = false

@@ -1,4 +1,4 @@
-const product 						= require('../models').productCustom;
+const productCustom				= require('../models').productCustom;
 const fs 									= require('fs');
 const path 								= require('path');
 const ipify								= require('ipify2');
@@ -22,37 +22,41 @@ exports.print = async (req, res) => {
 
 exports.add = async (req, res) => {
 	try{
-		let { userId, name, shape } = req.body;
+		let { userId, brandName, productName, variantName, shape } = req.body;
 		const designFiles = req.files['designFiles'][0].filename;
-
+		console.log('sampe sini');
 		const checkItem = await productCustom.findOne({
 			where:{
-				shape: shape,
-				name: name,
-				userId: userId
+				shape				: shape,
+				brandName		: brandName,
+				productName	: productName,
+				variantName	: variantName,
+				userId			: userId
 			}
 		});
-	
+		console.log('hore');
 		if (checkItem) {
 			return res.status(400).send({
-				msg: 'Identical product already exist'
+				msg: 'Identical Custom already exist'
 			})
 		};
 
   	let ip = await ipify.ipv4();
     await productCustom.create({
-      userId: userId,
-    	shape: shape.toLowerCase(),
-    	name: name.toLowerCase(),
-			designFiles: designFiles,
-			bestLength: req.body.bestLength,
-			bestWidth: req.body.bestWidth,
-			createdBy: ip,
-			modifiedBy: ip
+      userId			: userId,
+    	shape				: shape.toLowerCase(),
+    	brandName		: brandName.toLowerCase(),
+			productName	:	productName.toLowerCase(),
+			variantName	:	variantName.toLowerCase(),
+			designFiles	: designFiles,
+			bestLength	: parseInt(req.body.bestLength),
+			bestWidth		: parseInt(req.body.bestWidth),
+			createdBy		: ip,
+			modifiedBy	: ip
     });
 
 		await sharp('./public/uploads/' + designFiles)
-			.toFile('./public/storage/products/design/' + designFiles);
+			.toFile('./public/storage/custom_products/' + designFiles);
 
 		/*
 		* Problem with FS
@@ -60,7 +64,7 @@ exports.add = async (req, res) => {
 		* Do not uncomment just yet!!!
 		*/
     // fs.unlink('./public/uploads/' + designFiles, () => {
-      // 	res.json({ file: './public/storage/products/' + designFiles })
+      // 	res.json({ file: './public/storage/Customs/' + designFiles })
       // });
 				
 		res.sendStatus(201);
@@ -80,30 +84,34 @@ exports.remove = async(req, res) => {
 
 exports.edit = async(req, res) => {
 	try{
-		const { shape, name, userId } = req.body;
+		let { userId, brandName, productName, variantName, shape } = req.body;
 		const checkItem = await productCustom.findOne({
 			where:{
-        userId: userId,
-				shape: shape.toLowerCase(),
-				name: name.toLowerCase()
+				shape				: shape,
+				brandName		: brandName,
+				productName	: productName,
+				variantName	: variantName,
+				userId			: userId
 			}
 		});
 	
 		if (checkItem) {
 			return res.status(400).send({
-				msg: 'Identical product already exist'
+				msg: 'Identical Custom already exist'
 			})
 		};
 
 		let ip = await ipify.ipv4()
 		await productCustom.update(
-			{
-				shape: shape.toLowerCase(),
-				name: name.toLowerCase(),
-				bestLength: req.body.bestLength,
-				bestWidth: req.body.bestWidth,
-				modifiedBy: ip,
-				updateAt: Date.now()
+			{				
+				shape				: shape.toLowerCase(),
+				brandName		: brandName.toLowerCase(),
+				productName	:	productName.toLowerCase(),
+				variantName	:	variantName.toLowerCase(),
+				bestLength	: req.body.bestLength,
+				bestWidth		: req.body.bestWidth,
+				modifiedBy	: ip,
+				updateAt		: Date.now()
 			}, {
 				where:{
 					id: req.id
@@ -134,6 +142,28 @@ exports.show = async (req, res) => {
     	}
     });
 		
+    res.json(result);
+  } catch(err) {
+    res.json(err);
+  };
+};
+
+
+
+exports.checkId = async (req, res) => {
+  try{
+    let result = await productCustom.findOne({
+			attributes: [
+				'id',
+			],
+    	where:{
+    		userId			: req.body.userId,
+				shape				: req.body.shape,
+				brandName 	: req.body.brandName,
+				productName	: req.body.productName,
+				variantName	: req.body.variantName,
+    	}
+    });
     res.json(result);
   } catch(err) {
     res.json(err);

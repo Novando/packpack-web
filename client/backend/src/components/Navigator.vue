@@ -199,10 +199,18 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="{ name : 'ProductAttributes' }" class="nav-link">
+            <router-link :to="{ name : 'Customs' }" class="nav-link">
+              <i class="nav-icon fas fa-boxes"></i>
+              <p>
+                Custom Products
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name : 'Materials' }" class="nav-link">
               <i class="nav-icon fas fa-project-diagram"></i>
               <p>
-                Products Attributes
+                Materials
               </p>
             </router-link>
           </li>

@@ -49,9 +49,8 @@ exports.login = async(req, res) => {
 		let getId		 			= getUser.id;
 		let getRole 			= getUser.role;
 		let getUsername		= getUser.username;
-		let getEmail			= getUser.email;
 		const accessToken = jwt.sign(
-													{getRole, getId},
+													{getRole, getId, getUsername},
 													process.env.ACCESS_SECRET,
 													{ expiresIn: '1d' }
 												);
@@ -64,7 +63,7 @@ exports.login = async(req, res) => {
 			id 				: getId,
 			user 			: getUsername,
 			success 	: true,
-			token 		: 'Bearer ' + accessToken,
+			token 		: accessToken,
 			msg 			: 'You are logged in' 
 		});
 		// const refreshToken	= jwt.sign(

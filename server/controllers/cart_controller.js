@@ -1,5 +1,7 @@
 const product 						= require('../models').product;
+const productCustom 			= require('../models').productCustom;
 const cart								= require('../models').cart;
+const material						= require('../models').material;
 const user								= require('../models').user;
 const fs 									= require('fs');
 const path 								= require('path');
@@ -14,11 +16,15 @@ exports.add = async (req, res) => {
 		};
 		let ip = await ipify.ipv4();
 		await cart.create({
-			userId 			: userId,
-			productId 	: req.body.productId,
-			qty 				: req.body.qty,
-			createdBy 	: ip,
-			modifiedBy 	: ip
+			userId 					: userId,
+			productId 			: req.body.productId,
+			productCustomId	: req.body.productCustomId,
+			materialId 			: req.body.materialId,
+			width 					: parseInt(req.body.width),
+			length 					: parseInt(req.body.length),
+			qty 						: parseInt(req.body.qty),
+			createdBy 			: ip,
+			modifiedBy 			: ip
 		});
 		res.status(200).send({ msg: 'Cart Updated'});
 	} catch(err) {
@@ -26,53 +32,86 @@ exports.add = async (req, res) => {
 	}
 }
 
-exports.showUser = async (req, res) => {
+exports.show = async (req, res) => {
+	console.log('mulai');
 	try{
-		const getUser = await user.findOne({
-			attributes: [
-				'id',
-				'email',
-			],
+		const getCart = await cart.findAll({
+			attributes: {
+				exclude: [
+					'createdBy',
+					'modifiedBy',
+					'createdAt',
+					'updatedAt'
+				]
+			},
 			where:{
-				id: req.params.id
+				userId: req.body.userId
 			}
 		});
-
-		if (!getUser){
+		console.log('sampe sini');
+		if (!getCart){
 			return res.status(200).send({ msg: 'Cart empty' });
 		};
 
-		const getCart = await cart.findAll({
-			attributes: [
-				'id',
-				'productId',
-				'qty',
-			],
-			where:{
-				userId: getUser.id
-			}
-		});
 		// console.log(getCart[0]['id']);
 		let datum = 0;
 		let data = getCart.length;
 		let allProducts = [];
+		let getProduct
 		console.log(data);
 		while (datum < data) {
-			let getProduct = await product.findOne({
+			if (getCart[datum]['productId']) {
+				getProduct = await product.findOne({
+					attributes: [
+						'shape',
+						'name',
+						'variant',
+						'mainImg',
+					],
+					where:{
+						id: getCart[datum]['productId']
+					}
+				});
+				console.log('productId');
+			} else {
+				getProduct = await productCustom.findOne({
+					attributes: [
+						'shape',
+						'brandName',
+						'productName',
+						'variantName',
+						'designFiles',
+					],
+					where:{
+						id: getCart[datum]['productCustomId']
+					}
+				});
+			}
+
+			getMaterial = await material.findOne({
 				attributes: [
-					'id',
-					'qty',
+					'price',
+					'weight',
+					'width'
 				],
 				where:{
-					id: getCart[datum]['productId']
+					id: getCart[datum]['materialId']
 				}
-			});
-			allProducts.push(getProduct);
-			console.log('ini productID : ' + getCart[datum]['productId']);
+			})
+
+			console.log(getProduct.dataValues);
+			let theProduct = Object.assign(
+				{},
+				getCart[datum].dataValues,
+				getProduct.dataValues,
+				getMaterial.dataValues
+			);
+			allProducts.push(theProduct);
 			datum ++;
+			
 		}
 
-		res.json({ getUser, getCart, allProducts })
+		res.json(allProducts)
 	} catch(err) {
 		console.log(err)
 	}

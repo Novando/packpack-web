@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   };
   productCustom.init({
     userId      : DataTypes.BIGINT.UNSIGNED,
-    name        : DataTypes.STRING,
+    brandName   : DataTypes.STRING,
+    productName : DataTypes.STRING,
+    variantName : DataTypes.STRING,
     shape       : DataTypes.STRING,
     designFiles : DataTypes.TEXT,
     bestWidth   : DataTypes.INTEGER,

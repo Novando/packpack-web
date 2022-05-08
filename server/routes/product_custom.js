@@ -29,6 +29,7 @@ productCustomRoute.post('/add', uploadProductCustom.fields([
 ]), productCustom.add);
 productCustomRoute.post('/edit/:id', productCustom.edit);
 productCustomRoute.get('/show/:id', productCustom.show);
+productCustomRoute.post('/show/user-id', productCustom.checkId);
 productCustomRoute.delete('/remove/:id', productCustom.remove);
 
 module.exports = productCustomRoute;

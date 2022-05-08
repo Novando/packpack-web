@@ -1,18 +1,29 @@
 <template>
-  <v-app>
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+  <NavigatorComponent />
+  <router-view/>
+  <FooterComponent />
 </template>
 
 <script>
+  import NavigatorComponent from '@/components/Navigator.vue'
+  import FooterComponent from '@/components/Footer.vue'
+  import vueCookies from 'vue-cookies'
 
-export default {
-  name: 'App',
+  export default{
+    components: {
+      NavigatorComponent,
+      FooterComponent,
+    },
 
-  data: () => ({
-    //
-  }),
-}
+    async mounted(){
+      if (vueCookies.get('token')){
+        this.$store.dispatch('checkLogin', vueCookies.get('token'))
+      }
+    }
+
+  }
 </script>
+
+<style>
+
+</style>

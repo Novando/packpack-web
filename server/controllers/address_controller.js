@@ -34,6 +34,19 @@ exports.add = async (req, res) => {
 		return res.status(404).send({ msg: 'User not found'});
 	}
 
+	const checkAddress = await address.findOne({
+		where: {
+			userId 		: req.body.userId,
+			recipient	: req.body.recipient,
+			address1	: req.body.address1,
+			isMain 		: req.body.isMain
+		}
+	})
+
+	if(checkAddress){
+		return res.status(200).send({ msg: 'Continue without saving address'})
+	}
+
 	let ip = await ipify.ipv4();
 	try{
 		await address.create({
@@ -57,11 +70,53 @@ exports.add = async (req, res) => {
   };
 };
 
+exports.setMain = async (req, res) => {
+	try{
+		const getUser = await user.findOne({
+			where: {
+				id: req.body.userId
+			}
+		});
+
+		if (!getUser) {
+			return res.status(404).send({ msg: 'User not found'});
+		};
+		
+		
+		let ip = await ipify.ipv4();
+		await address.update({
+			isMain : false,
+			modifiedBy : ip
+			}, {
+			where: {
+				userId 		: req.body.userId,
+			}
+		});
+		res.sendStatus(201);
+  } catch(err) {
+    res.status(400).send({ msg: err.message });
+  };
+};
+
 exports.show = async (req, res) => {
   try{
     let result = await address.findOne({
 			where: {
 				id: req.params.id
+			}
+		});
+    res.json(result);
+  } catch(err) {
+    res.json(err);
+  };
+};
+
+exports.showUser = async (req, res) => {
+  try{
+    let result = await address.findOne({
+			where: {
+				userId: req.params.id,
+				isMain: true
 			}
 		});
     res.json(result);

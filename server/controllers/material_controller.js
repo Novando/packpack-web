@@ -27,11 +27,12 @@ exports.add = async (req, res) => {
 
     const ip = await ipify.ipv4();
     await material.create({
-      name : req.body.name,
-      width: req.body.width,
-      price: req.body.price,
-      weight: req.body.weight,
-      stock: req.body.stock,
+      name : (req.body.name).toLowerCase(),
+      description : (req.body.description).toLowerCase(),
+      width: parseInt(req.body.width),
+      price: parseFloat(req.body.price),
+      weight: parseFloat(req.body.weight),
+      stock: parseInt(req.body.stock),
       createdBy: ip,
       modifiedBy: ip,
     });
@@ -57,23 +58,36 @@ exports.show = async (req, res) => {
 
 exports.edit = async (req, res) => {
   try{
+    const { name, width } = req.body; 
     const getMaterial = await material.findOne({
       where: {
-        id: req.body.id
+        id: req.params.id
       }
     });
-
+    
     if (!getMaterial) {
       return res.sendStatus(404);
     };
 
-    const ip = ipify.ipv4();
+    const checkMaterial = await material.findOne({
+      where: {
+        name: name,
+        width: width
+      }
+    });
+    
+    if (checkMaterial && checkMaterial.id != req.params.id){
+      return res.status(400).send({ msg: "Identical material exist" });
+    };
+
+    const ip = await ipify.ipv4();
     await material.update(
       {
-        name: req.body.name,
-        width: req.body.width,
-        weight: req.body.weight,
-        price: req.body.price,
+        name: (req.body.name).toLowerCase(),
+        width: parseInt(req.body.width),
+        weight: parseFloat(req.body.weight),
+        description: req.body.description,
+        price: parseFloat(req.body.price),
         modifiedBy: ip
       }, {
         where: {
@@ -84,6 +98,7 @@ exports.edit = async (req, res) => {
 
     res.status(201).send({ msg: 'Material updated' });
   } catch(err) {
+    console.log(err);
     res.status(400).send(err);
   }
 }
@@ -92,7 +107,7 @@ exports.adjust = async (req, res) => {
   try{
     const getMaterial = await material.findOne({
       where: {
-        id: req.body.id
+        id: req.params.id
       }
     });
 
@@ -103,11 +118,11 @@ exports.adjust = async (req, res) => {
     const ip = await ipify.ipv4();
     await material.update(
       {
-        stock: req.body.stock,
+        stock: parseInt(req.body.stock),
         modifiedBy: ip
       }, {
         where: {
-          id: req.body.id
+          id: req.params.id
         }
       }
     );
@@ -122,7 +137,7 @@ exports.restock = async (req, res) => {
   try{
     const getMaterial = await material.findOne({
       where: {
-        id: req.body.id
+        id: req.params.id
       }
     });
 
@@ -137,7 +152,7 @@ exports.restock = async (req, res) => {
         modifiedBy: ip
       }, {
         where: {
-          id: req.body.id
+          id: req.params.id
         }
       }
     );

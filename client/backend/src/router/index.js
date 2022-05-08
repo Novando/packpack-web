@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import ManageUsers from '@/views/ManageUsers.vue'
 import Products from '@/views/Products.vue'
-import ProductAttributes from '@/views/ProductAttributes.vue'
+import Materials from '@/views/Materials.vue'
+import ProductCustoms from '@/views/ProductCustoms.vue'
 
 const routes = [
   {
@@ -21,9 +22,14 @@ const routes = [
     component: Products
   },
   {
-    path: '/products-atrb',
-    name: 'ProductAttributes',
-    component: ProductAttributes
+    path: '/materials',
+    name: 'Materials',
+    component: Materials
+  },
+  {
+    path: '/custom',
+    name: 'Customs',
+    component: ProductCustoms
   },
   {
     path: '/about',
