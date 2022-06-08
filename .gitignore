@@ -1,18 +1,20 @@
 # Client backend
 /client/backend/.DS_Store
 /client/backend/node_modules
-/client/backend/AdminLTE-3.1.0
+/client/backend/.env*
+!/client/backend/.env.sample
 
 # Client frontend
 /client/frontend/.DS_Store
 /client/frontend/node_modules
-
-# Client backup
-/client/frontend_bak
+/client/frontend/.env*
+!/client/frontend/.env.sample
 
 # Server
 /server/node_modules
-.env
+/server/.env*
+/server/config/.env.db_config
+!/server/.env.sample
 
 # local env files
 .env.local

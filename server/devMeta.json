@@ -1,1 +1,10 @@
-[]
+[
+  "20211228155855-create-user.js",
+  "20220104014557-create-address.js",
+  "20220121021500-create-product.js",
+  "20220121021641-create-material.js",
+  "20220121021700-create-product-custom.js",
+  "20220121021739-create-cart.js",
+  "20220122064623-create-order.js",
+  "20220122064819-create-order-detail.js"
+]

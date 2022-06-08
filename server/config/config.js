@@ -1,31 +1,11 @@
-const fs = require('fs');
+require('dotenv').config({path: `${__dirname}/.env.db_config`});
 
 module.exports = {
-  dev: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: "127.0.0.1",
-    dialect: process.env.DB_ENGINE,
-    migrationStorage: "json",
+    username            : process.env.SERVER_DB_USERNAME,
+    password            : process.env.SERVER_DB_PASSWORD,
+    database            : process.env.SERVER_DB_NAME,
+    host                : process.env.SERVER_DB_HOST,
+    dialect             : process.env.SERVER_DB_ENGINE,
+    migrationStorage    : "json",
     migrationStoragePath: "devMeta.json",
-  },
-  test: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: "127.0.0.1",
-    dialect: process.env.DB_ENGINE,
-    migrationStorage: "json",
-    migrationStoragePath: "testMeta.json",
-  },
-  prod: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: "127.0.0.1",
-    dialect: process.env.DB_ENGINE,
-    migrationStorage: "json",
-    migrationStoragePath: "prodMeta.json",
-  },
 };

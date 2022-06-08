@@ -5,7 +5,7 @@ export default createStore({
   // For production, TURN OFF STRICT MODE!!!!!!
   strict: true,
   state: {
-    apiUrl    : 'http://localhost:3000/storage/',
+    apiUrl    : `${process.env.VUE_APP_API}/storage`,
     user      : null,
     userId    : null,
     role      : 'guest',

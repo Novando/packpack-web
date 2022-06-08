@@ -1,8 +1,7 @@
 const JwtStrategy 			= require('passport-jwt').Strategy;
 const ExtractJwt 				= require('passport-jwt').ExtractJwt;
-const sequelize 				= require('sequelize');
 const user 							= require('../models').user;
-const key 							= process.env.ACCESS_SECRET;
+const key 							= process.env.SERVER_ACCESS_SECRET;
 
 const opts 					= {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
